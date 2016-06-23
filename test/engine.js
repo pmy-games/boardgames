@@ -8,7 +8,7 @@ describe('boardgame', function() {
 	describe('Creating game instance', function () {
 		beforeEach(function() {
 			boardGame = new BoardGame({
-				"game_factory" : (initial_state) => {
+				"game_factory" : (initial_state, conf) => {
 					initial_state.board = {
 						"count":0
 					};
@@ -18,17 +18,17 @@ describe('boardgame', function() {
 					if (play.action == "up")
 						state.board.count++;
 					var players = state.players;
-					state.turn = players[(players.indexOf(player)+1) % players.length()];
+					state.turn = players[(players.indexOf(player)+1) % players.length];
 					return true;
 				}
 			});
 		});
 
 		it('should create a game instance when the framework is properly configured', function () {
-			var game_instance = boardGame.start_game({"players": 2});
+			var game_instance = boardGame.create_game({"players": 2});
 			var players = game_instance.players();
 
-			assert.equal(players.length(), 2);
+			assert.equal(players.length, 2);
 			assert.equal(game_instance.board().count, 0)
 
 			var player1 = players[0];
@@ -42,11 +42,15 @@ describe('boardgame', function() {
 
 			game_instance.play(player1, {"action" : "nothing"});
 			assert.equal(game_instance.board().count, 0);
-			assert.equals(player2_events.pop(), {"type":"turn", "value":player2})
+			var turn2_event = player2_events.pop();
+			assert.equal(turn2_event.type, "turn");
+			assert.equal(turn2_event.value, player2);
 
 			game_instance.play(player2, {"action" : "up"});
 			assert.equal(game_instance.board().count, 1);
-			assert.equals(player1_events.pop(), {"type":"turn", "value":player1})
+			var turn3_event = player1_events.pop();
+			assert.equal(turn3_event.type, "turn");
+			assert.equal(turn3_event.value, player1);
 		});
 	});
 });
