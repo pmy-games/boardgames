@@ -42,15 +42,11 @@ describe('boardgame', function() {
 
 			game_instance.play(player1, {"action" : "nothing"});
 			assert.equal(game_instance.board().count, 0);
-			var turn2_event = player2_events.pop();
-			assert.equal(turn2_event.type, "turn");
-			assert.equal(turn2_event.value, player2);
+			assert.deepEqual(player2_events.pop(), {"type":"turn", "value":player2})
 
 			game_instance.play(player2, {"action" : "up"});
 			assert.equal(game_instance.board().count, 1);
-			var turn3_event = player1_events.pop();
-			assert.equal(turn3_event.type, "turn");
-			assert.equal(turn3_event.value, player1);
+			assert.deepEqual(player1_events.pop(), {"type":"turn", "value":player1})
 		});
 	});
 });
