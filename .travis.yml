@@ -1,4 +1,4 @@
-script: bash npm test
+script: npm test
 env:
   global:
   - GH_REF: github.com/pmy-games/boardgames.git
