@@ -36,9 +36,9 @@ describe('boardgame', function() {
 
 			var player1_events = new Array();
 			var player2_events = new Array();
-			
-			game_instance.subscribe(player1, (event) => player1_events.push(event));
-			game_instance.subscribe(player2, (event) => player2_events.push(event));
+
+			game_instance.on(player1, (event) => player1_events.push(event));
+			game_instance.on(player2, (event) => player2_events.push(event));
 
 			game_instance.play(player1, {"action" : "nothing"});
 			assert.equal(game_instance.board().count, 0);
