@@ -1,0 +1,10 @@
+script: bash npm test
+env:
+  global:
+  - GH_REF: github.com/pmy-games/boardgames.git
+language: node_js
+node_js:
+- "6"
+branches:
+  only:
+    - master
